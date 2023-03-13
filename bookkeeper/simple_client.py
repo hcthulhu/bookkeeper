@@ -4,23 +4,33 @@
 
 from bookkeeper.models.category import Category
 from bookkeeper.models.expense import Expense
-from bookkeeper.repository.memory_repository import MemoryRepository
-from bookkeeper.utils import read_tree
+from bookkeeper.models.budget import Budget
+from bookkeeper.repository.sqlite_repository import SQLiteRepository
+# from bookkeeper.repository.memory_repository import MemoryRepository
+# from bookkeeper.utils import read_tree
 
-cat_repo = MemoryRepository[Category]()
-exp_repo = MemoryRepository[Expense]()
 
-cats = '''
-продукты
-    мясо
-        сырое мясо
-        мясные продукты
-    сладости
-книги
-одежда
-'''.splitlines()
+# cat_repo = MemoryRepository[Category]()
+# exp_repo = MemoryRepository[Expense]()
+# bud_repo = MemoryRepository[Budget]()
+#
+# cats = '''
+# продукты
+#     мясо
+#         сырое мясо
+#         мясные продукты
+#     сладости
+# книги
+# одежда
+# '''.splitlines()
+#
+# Category.create_from_tree(read_tree(cats), cat_repo)
 
-Category.create_from_tree(read_tree(cats), cat_repo)
+db_file = "bookkeeper.db"
+
+cat_repo = SQLiteRepository[Category](db_file=db_file, cls=Category)
+exp_repo = SQLiteRepository[Expense](db_file=db_file, cls=Expense)
+bud_repo = SQLiteRepository[Budget](db_file=db_file, cls=Budget)
 
 while True:
     try:

@@ -16,16 +16,16 @@ def repo():
 
 
 def test_create_with_full_args_list():
-    b = Budget(period="day", sum=100, limitation=500, pk=1)
+    b = Budget(period="day", total=100, limitation=500, pk=1)
     assert b.period == "day"
-    assert b.sum == 100
+    assert b.total == 100
     assert b.limitation == 500
 
 
 def test_create_brief():
     b = Budget("day", 100, 500)
     assert b.period == "day"
-    assert b.sum == 100
+    assert b.total == 100
     assert b.limitation == 500
 
 
@@ -45,18 +45,18 @@ def test_update_sum(repo):
     repo.add(e3)
     # day
     b1 = Budget("day", 0, 500)
-    b1.update_sum(repo)
-    assert b1.sum == 100
+    b1.update_total(repo)
+    assert b1.total == 100
     # week
     b2 = Budget("week", 0, 500)
-    b2.update_sum(repo)
-    assert b2.sum == 200
+    b2.update_total(repo)
+    assert b2.total == 200
     # month
     b3 = Budget("month", 0, 500)
-    b3.update_sum(repo)
-    assert b3.sum == 300
+    b3.update_total(repo)
+    assert b3.total == 300
 
 
 def test_wrong_period():
     with pytest.raises(ValueError):
-        Budget(period="year", sum=100, limitation=500)
+        Budget(period="year", total=100, limitation=500)

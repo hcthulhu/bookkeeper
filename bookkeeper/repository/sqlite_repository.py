@@ -32,7 +32,7 @@ class SQLiteRepository(AbstractRepository[T]):
                 f'INSERT INTO {self.table_name} ({names}) VALUES ({inserts})',
                 values
             )
-            obj.pk = cur.lastrowid
+            obj.pk = cur.lastrowid  # type: ignore
         con.close()
         return obj.pk
 
@@ -46,7 +46,7 @@ class SQLiteRepository(AbstractRepository[T]):
         if row is None:
             return None
         obj = self.cls(*row)
-        return obj
+        return obj  # type: ignore
 
     def get_all(self, where: dict[str, Any] | None = None) -> list[T]:
         with sqlite3.connect(self.db_file) as con:

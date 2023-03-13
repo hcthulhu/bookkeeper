@@ -1,8 +1,18 @@
+"""
+Виджет с таблица бюджета
+"""
+# mypy: disable-error-code="attr-defined"
+# pylint: disable=no-name-in-module
+# pylint: disable=c-extension-no-member
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=too-few-public-methods
+from typing import Any
 from PySide6 import QtWidgets
 
 
 class BudgetTableWidget(QtWidgets.QTableWidget):
-    def __init__(self, *args, **kwargs):
+    """ Класс, описывающий виджет с таблица бюджета """
+    def __init__(self, *args: Any, **kwargs: Any):
         super().__init__(*args, **kwargs)
         self.setColumnCount(2)
         self.setRowCount(3)
@@ -10,24 +20,28 @@ class BudgetTableWidget(QtWidgets.QTableWidget):
         self.setHorizontalHeaderLabels(hheaders)
         vheaders = "День Неделя Месяц".split()
         self.setVerticalHeaderLabels(vheaders)
-        for h in [self.horizontalHeader(), self.verticalHeader(),]:
-            h.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        for header in [self.horizontalHeader(), self.verticalHeader(),]:
+            header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.setEditTriggers(
             QtWidgets.QAbstractItemView.NoEditTriggers)
 
-    def add_data(self, data: list[list[str]]):
-        for i, row in enumerate(data):
-            for j, x in enumerate(row):
+    def add_data(self, data: list[list[str]]) -> None:
+        """ Внесение данных в таблицу """
+        for table_row, row in enumerate(data):
+            for table_col, text in enumerate(row):
                 self.setItem(
-                    i, j,
-                    QtWidgets.QTableWidgetItem(x.capitalize())
+                    table_row, table_col,
+                    QtWidgets.QTableWidgetItem(text.capitalize())
                 )
 
+
 class BudgetTableGroup(QtWidgets.QGroupBox):
+    """ Группа с таблицей бюджета """
     data = [['500', '1000'],
             ['2000', '7000'],
             ['5000', '30000'],]
-    def __init__(self, *args, **kwargs):
+
+    def __init__(self, *args: Any, **kwargs: Any):
         super().__init__(*args, **kwargs)
         self.vbox = QtWidgets.QVBoxLayout()
         self.label = QtWidgets.QLabel("<b>Бюджет</b>")

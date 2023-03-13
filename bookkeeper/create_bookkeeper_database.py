@@ -9,18 +9,16 @@ from bookkeeper.models.budget import Budget
 from bookkeeper.repository.sqlite_repository import SQLiteRepository
 from bookkeeper.utils import read_tree
 
-db_file = "bookkeeper/bookkeeper.db"
+DB_FILE = "bookkeeper/bookkeeper.db"
 for cls in [Category, Expense, Budget]:
-    table_name = cls.__name__.lower()
     fields = get_annotations(cls, eval_str=True)
     fields.pop('pk')
-    names = ', '.join(fields.keys())
-    with sqlite3.connect(db_file) as con:
+    with sqlite3.connect(DB_FILE) as con:
         cur = con.cursor()
-        cur.execute(f'CREATE TABLE {table_name}({names})')
+        cur.execute(f"CREATE TABLE {cls.__name__.lower()}({', '.join(fields.keys())})")
     con.close()
 
-cat_repo = SQLiteRepository[Category](db_file=db_file, cls=Category)
+cat_repo = SQLiteRepository[Category](db_file=DB_FILE, cls=Category)
 
 cats = '''
 продукты

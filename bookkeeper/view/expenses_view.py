@@ -1,8 +1,18 @@
+"""
+Виджет с таблицей расходов
+"""
+# mypy: disable-error-code="attr-defined"
+# pylint: disable=no-name-in-module
+# pylint: disable=c-extension-no-member
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=too-few-public-methods
+from typing import Any
 from PySide6 import QtWidgets
 
 
 class ExpensesTableWidget(QtWidgets.QTableWidget):
-    def __init__(self, *args, **kwargs):
+    """ Класс, описывающий виджет с таблицей расходов """
+    def __init__(self, *args: Any, **kwargs: Any):
         super().__init__(*args, **kwargs)
         self.setColumnCount(4)
         self.setRowCount(30)
@@ -21,19 +31,23 @@ class ExpensesTableWidget(QtWidgets.QTableWidget):
             QtWidgets.QAbstractItemView.NoEditTriggers)
         self.verticalHeader().hide()
 
-    def add_data(self, data: list[list[str]]):
-        for i, row in enumerate(data):
-            for j, x in enumerate(row):
+    def add_data(self, data: list[list[str]]) -> None:
+        """ Внесение данных в таблицу """
+        for table_row, row in enumerate(data):
+            for table_col, text in enumerate(row):
                 self.setItem(
-                    i, j,
-                    QtWidgets.QTableWidgetItem(x.capitalize())
+                    table_row, table_col,
+                    QtWidgets.QTableWidgetItem(text.capitalize())
                 )
 
+
 class ExpensesTableGroup(QtWidgets.QGroupBox):
+    """ Группа с таблицей расходов """
     data = [["2023-10-01", str(10), "мясо", "комментарий"],
             ["2023-10-02", str(200), "продукты", ""],
             ["2023-10-03", str(3000), "сладости", ""],]
-    def __init__(self, *args, **kwargs):
+
+    def __init__(self, *args: Any, **kwargs: Any):
         super().__init__(*args, **kwargs)
         self.vbox = QtWidgets.QVBoxLayout()
         self.label = QtWidgets.QLabel("<b>Последние траты</b>")

@@ -26,7 +26,7 @@ from bookkeeper.repository.sqlite_repository import SQLiteRepository
 #
 # Category.create_from_tree(read_tree(cats), cat_repo)
 
-DB_FILE = "bookkeeper.db"
+DB_FILE = "bookkeeper/bookkeeper.db"
 
 cat_repo = SQLiteRepository[Category](db_file=DB_FILE, cls=Category)
 exp_repo = SQLiteRepository[Expense](db_file=DB_FILE, cls=Expense)
